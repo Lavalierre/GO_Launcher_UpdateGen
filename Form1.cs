@@ -88,9 +88,12 @@ namespace GO_Launcher_UpdateGen
 
                     // Generating file path
                     Uri originalPathUri = new Uri(selectFilesPath.SelectedPath + "\\");
-                    Uri filePathUri     = new Uri(path);
+                    Uri filePathUri     = new Uri(Path.GetDirectoryName(path) + "/");
                     Uri diff            = originalPathUri.MakeRelativeUri(filePathUri);
-                    fileElement.AppendChild(doc.CreateElement("filePath")).InnerText    = diff.OriginalString;
+                    if (diff.OriginalString != "")
+                        fileElement.AppendChild(doc.CreateElement("filePath")).InnerText    = diff.OriginalString;
+                    else
+                        fileElement.AppendChild(doc.CreateElement("filePath")).InnerText    = "/";
 
                     File.Copy(path, selectOutputPath.SelectedPath + "\\files\\" + Path.GetFileName(path), true);
                 }
